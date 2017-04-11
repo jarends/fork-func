@@ -57,7 +57,6 @@ if module.parent
                 args: args
 
         catch error
-            console.log 'Forked.call ERROR: ', error
             callback error, null
         cp
 

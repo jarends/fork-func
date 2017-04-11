@@ -57,7 +57,6 @@
         });
       } catch (error1) {
         error = error1;
-        console.log('Forked.call ERROR: ', error);
         callback(error, null);
       }
       return cp;
