@@ -11,7 +11,7 @@ Executes a function in a child process, as easy as calling a ordinary function ;
          
          
     # main script ./main
-    fork = require fork-func
+    fork = require 'fork-func'
     
     fork './heavy-func', args..., (error, result) ->
         if error
