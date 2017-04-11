@@ -1,7 +1,7 @@
 {
     "name": "fork-func",
-    "version": "0.0.3",
-    "description": "Executes a function in a child process but as easy as calling a ordinary function ;-)",
+    "version": "0.0.4",
+    "description": "Executes a function in a child process, as easy as calling a ordinary function ;-)",
     "main": "./js/fork-func",
     "scripts": {
         "start": "coffee -c -w -o ./js ./coffee",
