@@ -12,7 +12,12 @@ if module.parent
 
     ForkFunc = (path, args..., callback) ->
         opts = parse path
-        call opts.path, opts.name, args, callback
+        call opts.path, opts.name, args, callback, false
+
+
+    async = (path, args..., callback) ->
+        opts = parse path
+        call opts.path, opts.name, args, callback, true
 
 
     pimp = (obj, nameOrPath, path) ->
@@ -22,18 +27,16 @@ if module.parent
             path = nameOrPath
 
         opts = parse path
-        path = opts.path
-        name = opts.name
-        key  = translate key or name or Path.basename(path)
+        key  = translate key or opts.name or Path.basename(opts.path)
 
         obj[key] = (args..., callback) ->
-            call path, name, args, callback
+            call opts.path, opts.name, args, callback
         obj
 
 
 
 
-    call = (path, name, args, callback) ->
+    call = (path, name, args, callback, async) ->
         try
             cp = CP.fork __filename, stdio: 'inherit'
 
@@ -52,9 +55,10 @@ if module.parent
             cp.on 'exit'   , onExit
 
             cp.send
-                path: path
-                name: name
-                args: args
+                path:  path
+                name:  name
+                args:  args
+                async: async
 
         catch error
             callback error, null
@@ -82,7 +86,8 @@ if module.parent
         key
 
 
-    ForkFunc.pimp = pimp
+    ForkFunc.async = async
+    ForkFunc.pimp  = pimp
 
 
     module.exports = ForkFunc
@@ -99,20 +104,21 @@ else
     
     call = (msg) ->
         try
-            path   = msg.path
-            name   = msg.name
-            args   = msg.args
-            func   = require path
-            func   = func[name] if name
+            func = require msg.path
+            func = func[msg.name] if msg.name
             # TODO: better error checking
-            result = func.apply null, args
-            process.removeListener 'message', call
-            process.send
-                result: result
+            msg.args.push(ready) if msg.async
+            result = func.apply null, msg.args
+            ready(null, result) if not msg.async
         catch error
-            process.removeListener 'message', call
-            process.send
-                error: error
+            ready error
+
+
+    ready = (error, result) ->
+        process.removeListener 'message', call
+        process.send
+            error:  error
+            result: result
 
 
     process.on 'message', call
