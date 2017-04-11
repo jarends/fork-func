@@ -114,7 +114,7 @@ Ok, one more sugar. You can decorate any object with simpler to use functions li
     obj.heavyFunc arg0, arg1, ..., callback
     
     # as you realized, kebab-case will be converted to camelCase
-    # and as you expect, if a named function is called (./a::b), that name (b) is used
+    # and as you expect, if a named function is called ('./a::b'), that name (b) is used
     
     # if thats not enough, you can specify a custom name
     
