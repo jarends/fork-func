@@ -33,7 +33,9 @@ fork-func has the following signature:
 The absolute or relative path to a module, exporting a function.
 If relative, it must be relative to the calling module.  
 If the function is a named export of a module you can append the name seperated by ```::``` to the path.
-For example, if you have a module ```'./a'``` exporting a function ```b```, you can do ```fork './a::b', arg0, arg1, ..., callback```.
+For example, if you have a module ```'./a'``` exporting a function ```b```, you can do:  
+
+```fork './a::b', arg0, arg1, ..., callback```
 <br>  
 **args...**    
 Any number of arguments, you want to pass to the function.
@@ -49,7 +51,7 @@ Thats it ;-)
 <small>But wait...</small>
 <br>  
 What, if the function we want to call itself is asynchronous and the result is unknown, when the function returns.
-For example, can we use <code>setTimeout</code>?
+For example, can we use ```setTimeout```?
 
 ```coffee
     
@@ -97,7 +99,7 @@ But we have to do one more thing:
     
 ```
 
-You can expect (and have to use) that callback in your function when you call <code>fork-func.async</code>.  
+You can expect (and have to use) that callback in your function when you call ```fork-func.async```.  
 Whatever your function returns will be ignored (i currently can't find any reasonable task for the returned value, within this asynchronous variant).
 <br>  
 Ok, one more sugar. You can decorate any object with simpler to use functions like so:
