@@ -40,7 +40,7 @@ Any number of arguments, you want to pass to the function.
 **callback**    
 A function expecting two arguments. First a possible error and second the result of the function call.
     
-**returns**    
+**return**    
 The child-process instance is returned. You can use it, to kill the process, if necessary.
     
 Thats it ;-)
