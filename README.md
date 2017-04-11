@@ -32,7 +32,7 @@ fork-func has the following signature:
 **path**    
 The absolute or relative path to a module, exporting a function.
 If relative, it must be relative to the calling module.  
-If the function is a named export of a module you can append the name seperated by ```::``` to the path.
+If the function is a named export of a module you can append the name seperated by ```::``` to the path.  
 For example, if you have a module ```'./a'``` exporting a function ```b```, you can do:  
 
 ```fork './a::b', arg0, arg1, ..., callback```
