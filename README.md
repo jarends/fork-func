@@ -4,13 +4,13 @@ Executes a function in a child process, as easy as calling a ordinary function ;
 
 ```coffee
       
-    # function script ./heavy-func
+    # function script './heavy-func'
     module exports = (args...) ->
          # some heavy, long running stuff
          return result
          
          
-    # main script ./main
+    # main script './main'
     fork = require 'fork-func'
     
     fork './heavy-func', args..., (error, result) ->
@@ -25,7 +25,7 @@ fork-func has the following signature:
     
 ```coffee
     
-    fork path, args..., callback
+    cp = fork path, args..., callback
     
 ```    
 
@@ -56,8 +56,8 @@ Ok, one more sugar. You can decorate any object with simpler to use functions li
     
     obj.heavyFunc arg0, arg1, ..., callback
     
-    # as you realized, snake-case will be converted to camelCase
-    # and as you expected, if a named function is called (./a::b), this name (b) is used
+    # as you realized, kebab-case will be converted to camelCase
+    # and as you expected, if a named function is called (./a::b), that name (b) is used
     
     # if thats not enough, you can specify a custom name
     
