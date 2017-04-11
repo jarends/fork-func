@@ -1,0 +1,30 @@
+{
+    "name": "fork-func",
+    "version": "0.0.1",
+    "description": "Executes a function in a child process but as easy as calling a ordinary function ;-)",
+    "main": "./js/fork-func",
+    "scripts": {
+        "start": "coffee -c -w -o ./js ./coffee",
+        "example": "node ./js/example/main"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jarends/fork-func.git"
+    },
+    "keywords": [
+        "child-process",
+        "fork",
+        "function",
+        "call",
+        "apply",
+        "execute",
+        "callback",
+        "result"
+    ],
+    "author": "jarends",
+    "license": "Unlicense",
+    "bugs": {
+        "url": "https://github.com/jarends/fork-func/issues"
+    },
+    "homepage": "https://github.com/jarends/fork-func#readme"
+}
