@@ -2,7 +2,7 @@
 
 Executes a function in a child process, as easy as calling a ordinary function ;-)
 
-```coffee-script
+```coffee
       
     # function script ./heavy-func
     module exports = (args...) ->
@@ -23,7 +23,7 @@ Executes a function in a child process, as easy as calling a ordinary function ;
     
 fork-func has the following signature:
     
-```coffee-script
+```coffee
     
     fork path, args..., callback
     
@@ -47,7 +47,7 @@ Thats it ;-)
     
 Ok, one more sugar. You can decorate any object with simpler to use functions like so:    
     
-```coffee-script
+```coffee
     
     obj = {}
     fork.pimp obj, './heavy-func'
