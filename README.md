@@ -32,7 +32,7 @@ fork-func has the following signature:
 **path**    
 The absolute or relative path to a module, exporting a function.
 If relative, it must be relative to the calling module.  
-If the function is a named export of a module you can append the name seperated by ```::``` to the path.  
+If the function is a named export of a module you can append the name separated by ```::``` to the path.  
 For example, if you have a module ```'./a'``` exporting a function ```b```, you can do:  
 
 ```fork './a::b', arg0, arg1, ..., callback```
@@ -46,7 +46,7 @@ A function expecting two arguments. First a possible error and second the result
 **return**    
 The child-process instance is returned. You can use it, to kill the process, if necessary.
 <br>  
-Thats it ;-)
+That's it ;-)
 <br>   
 <small>But wait...</small>
 <br>  
@@ -79,7 +79,7 @@ We can simply do this:
     
 ```
     
-Looks similar to the synchronous version, except that we call async on fork-func.  
+Looks similar to the synchronous version, except that we call ```async``` on fork-func, doesn't it?  
 But we have to do one more thing:
  
 ```coffee
@@ -99,7 +99,7 @@ But we have to do one more thing:
     
 ```
 
-You can expect (and have to use) that callback in your function when you call ```fork-func.async```.  
+You can expect (and have to use) that callback in your function when you call ```fork-func.async```.    
 Whatever your function returns will be ignored (i currently can't find any reasonable task for the returned value, within this asynchronous variant).
 <br>  
 Ok, one more sugar. You can decorate any object with simpler to use functions like so:
@@ -109,24 +109,25 @@ Ok, one more sugar. You can decorate any object with simpler to use functions li
     obj = {}
     fork.pimp obj, './heavy-func'
     
-    # creates a method 'heavyFunc' on obj which you can call without the path argument
+    # creates a method 'heavyFunc' on obj which you can call without the path argument:
     
     obj.heavyFunc arg0, arg1, ..., callback
     
     # as you realized, kebab-case will be converted to camelCase
     # and as you expect, if a named function is called ('./a::b'), that name (b) is used
     
-    # if thats not enough, you can specify a custom name
+    # if thats not enough, you can specify a custom name:
     
     fork.pimp obj, 'tallFunc', './heavy-func'
     
     # will create obj.tallFunc
     
 ```        
-      
+
 Enjoy!
 <br>  
-<br>     
+<br>  
+
 ### License    
    
 fork-func is free and unencumbered public domain software. For more information, see http://unlicense.org/ or the accompanying UNLICENSE file.
