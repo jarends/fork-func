@@ -86,8 +86,9 @@ if module.parent
         key
 
 
-    ForkFunc.async = async
-    ForkFunc.pimp  = pimp
+    ForkFunc.async   = async
+    ForkFunc.pimp    = pimp
+    ForkFunc.default = ForkFunc # stupid hack to get ts default exports working
 
 
     module.exports = ForkFunc

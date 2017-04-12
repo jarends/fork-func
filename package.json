@@ -26,5 +26,6 @@
     "bugs": {
         "url": "https://github.com/jarends/fork-func/issues"
     },
-    "homepage": "https://github.com/jarends/fork-func#readme"
+    "homepage": "https://github.com/jarends/fork-func#readme",
+    "typings": "./ts/fork-func.d.ts"
 }

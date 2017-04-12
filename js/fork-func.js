@@ -93,6 +93,7 @@
     };
     ForkFunc.async = async;
     ForkFunc.pimp = pimp;
+    ForkFunc["default"] = ForkFunc;
     module.exports = ForkFunc;
   } else {
     call = function(msg) {
