@@ -20,7 +20,7 @@ console.log 'ready ;-) but still working (nested) in background ...\n'
 
 console.log 'starting some heavy, async work ...'
 
-fork.async './some-heavy-async', 3200, 'async background job ready', callback
+fork.async './some-heavy-async-work', 3200, 'async background job ready', callback
 
 console.log 'ready ;-) but still working (async) in background ...\n'
 
@@ -28,16 +28,18 @@ console.log 'ready ;-) but still working (async) in background ...\n'
 pimped = {}
 
 
-fork.pimp pimped, __dirname + '/some-heavy-work'
-fork.pimp pimped, './some-heavy-nested-work::work'
-fork.pimp pimped, 'workHeavy',  './some-heavy-work'
-fork.pimp pimped, 'workNested', './some-heavy-nested-work::work'
+fork.pimp  pimped, __dirname + '/some-heavy-work'
+fork.pimp  pimped, './some-heavy-nested-work::work'
+fork.pimp  pimped, 'workAsync',  './some-heavy-async-work', true
+fork.pimp  pimped, 'workHeavy',  './some-heavy-work'
+fork.pimp  pimped, 'workNested', './some-heavy-nested-work::work'
 
 
 pimped.someHeavyWork 3300, 'called from pimped.someHeavyWork', callback
 pimped.work          3400, 'called from pimped.work',          callback
-pimped.workHeavy     3500, 'called from pimped.workHeavy',     callback
-pimped.workNested    3600, 'called from pimped.workNested',    callback
+pimped.workAsync     3500, 'called from pimped.workAsync',     callback
+pimped.workHeavy     3600, 'called from pimped.workHeavy',     callback
+pimped.workNested    3700, 'called from pimped.workNested',    callback
 
 
 

@@ -100,14 +100,14 @@ But we have to do one more thing:
 ```
 
 You can expect (and have to use) that callback in your function when you call ```fork-func.async```.    
-Whatever your function returns will be ignored (i currently can't find any reasonable task for the returned value, within this asynchronous variant).
+And whatever your function returns will be ignored (i currently can't find any reasonable task for the returned value, within this asynchronous variant).
 <br>  
 Ok, one more sugar. You can decorate any object with simpler to use functions like so:
 
 ```coffee
       
     obj = {}
-    fork.pimp obj, './heavy-func'
+    fork.pimp obj, './heavy-func', async # with async = true|false, default is false
     
     # creates a method 'heavyFunc' on obj which you can call without the path argument:
     

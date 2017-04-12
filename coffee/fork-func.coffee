@@ -20,7 +20,7 @@ if module.parent
         call opts.path, opts.name, args, callback, true
 
 
-    pimp = (obj, nameOrPath, path) ->
+    pimp = (obj, nameOrPath, path, async = false) ->
         if path
             key = nameOrPath
         else
@@ -30,7 +30,7 @@ if module.parent
         key  = translate key or opts.name or Path.basename(opts.path)
 
         obj[key] = (args..., callback) ->
-            call opts.path, opts.name, args, callback
+            call opts.path, opts.name, args, callback, async
         obj
 
 
@@ -41,9 +41,7 @@ if module.parent
             cp = CP.fork __filename, stdio: 'inherit'
 
             onMessage = (msg) ->
-                result = msg.result
-                error  = msg.error
-                callback error, result
+                callback msg.error, msg.result
                 null
 
             onExit = () ->

@@ -18,8 +18,11 @@
       opts = parse(path);
       return call(opts.path, opts.name, args, callback, true);
     };
-    pimp = function(obj, nameOrPath, path) {
+    pimp = function(obj, nameOrPath, path, async) {
       var key, opts;
+      if (async == null) {
+        async = false;
+      }
       if (path) {
         key = nameOrPath;
       } else {
@@ -30,7 +33,7 @@
       obj[key] = function() {
         var args, callback, i;
         args = 2 <= arguments.length ? slice.call(arguments, 0, i = arguments.length - 1) : (i = 0, []), callback = arguments[i++];
-        return call(opts.path, opts.name, args, callback);
+        return call(opts.path, opts.name, args, callback, async);
       };
       return obj;
     };
@@ -41,10 +44,7 @@
           stdio: 'inherit'
         });
         onMessage = function(msg) {
-          var error, result;
-          result = msg.result;
-          error = msg.error;
-          callback(error, result);
+          callback(msg.error, msg.result);
           return null;
         };
         onExit = function() {
