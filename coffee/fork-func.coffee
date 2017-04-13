@@ -20,11 +20,13 @@ if module.parent
         call opts.path, opts.name, args, callback, true
 
 
-    pimp = (obj, nameOrPath, path, async = false) ->
-        if path
-            key = nameOrPath
+    pimp = (obj, nameOrPath, pathOrAsync, async = false) ->
+        if pathOrAsync and pathOrAsync == pathOrAsync + ''
+            key  = nameOrPath
+            path = pathOrAsync
         else
-            path = nameOrPath
+            path  = nameOrPath
+            async = pathOrAsync
 
         opts = parse path
         key  = translate key or opts.name or Path.basename(opts.path)

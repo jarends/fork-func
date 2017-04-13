@@ -32,6 +32,8 @@
 
   fork.pimp(pimped, './some-heavy-nested-work::work');
 
+  fork.pimp(pimped, './some-heavy-async-work', true);
+
   fork.pimp(pimped, 'workAsync', './some-heavy-async-work', true);
 
   fork.pimp(pimped, 'workHeavy', './some-heavy-work');
@@ -42,10 +44,12 @@
 
   pimped.work(3400, 'called from pimped.work', callback);
 
-  pimped.workAsync(3500, 'called from pimped.workAsync', callback);
+  pimped.someHeavyAsyncWork(3500, 'called from pimped.someHeavyAsyncWork', callback);
 
-  pimped.workHeavy(3600, 'called from pimped.workHeavy', callback);
+  pimped.workAsync(3600, 'called from pimped.workAsync', callback);
 
-  pimped.workNested(3700, 'called from pimped.workNested', callback);
+  pimped.workHeavy(3700, 'called from pimped.workHeavy', callback);
+
+  pimped.workNested(3800, 'called from pimped.workNested', callback);
 
 }).call(this);

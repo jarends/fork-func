@@ -18,15 +18,17 @@
       opts = parse(path);
       return call(opts.path, opts.name, args, callback, true);
     };
-    pimp = function(obj, nameOrPath, path, async) {
-      var key, opts;
+    pimp = function(obj, nameOrPath, pathOrAsync, async) {
+      var key, opts, path;
       if (async == null) {
         async = false;
       }
-      if (path) {
+      if (pathOrAsync && pathOrAsync === pathOrAsync + '') {
         key = nameOrPath;
+        path = pathOrAsync;
       } else {
         path = nameOrPath;
+        async = pathOrAsync;
       }
       opts = parse(path);
       key = translate(key || opts.name || Path.basename(opts.path));
