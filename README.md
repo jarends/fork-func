@@ -31,7 +31,8 @@ fork-func has the following signature:
 
 **path**    
 The absolute or relative path to a module, exporting a function.
-If relative, it must be relative to the calling module.  
+If relative, it must be relative to the calling module like you would do in ```require```.
+You can also reference node_modules by their name like you would do in ```require```.   
 If the function is a named export of a module you can append the name separated by ```::``` to the path.  
 For example, if you have a module ```'./a'``` exporting a function ```b```, you can do:  
 
