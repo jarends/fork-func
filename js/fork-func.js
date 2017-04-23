@@ -40,22 +40,46 @@
       return obj;
     };
     call = function(path, name, args, callback, async) {
-      var cp, error, onExit, onMessage;
+      var cp, error, onError, onExit, onMessage, onStdError;
       try {
-        cp = CP.fork(__filename, {
-          stdio: 'inherit'
-        });
         onMessage = function(msg) {
+          if (msg.error) {
+            msg.error = JSON.parse(msg.error);
+            null;
+          }
           callback(msg.error, msg.result);
+          return null;
+        };
+        onError = function(error) {
+          callback(error);
+          return null;
+        };
+        onStdError = function(data) {
+          var parsed;
+          data = data.toString().split(/\r\n|\n/);
+          data.splice(0, 4);
+          parsed = /(.*?):\s(.*)/.exec(data[0]);
+          callback({
+            name: parsed[1],
+            message: parsed[2],
+            stack: data.join('\n')
+          });
           return null;
         };
         onExit = function() {
           cp.removeListener('message', onMessage);
+          cp.removeListener('error', onError);
           cp.removeListener('exit', onExit);
+          cp.stderr.removeListener('data', onStdError);
           return null;
         };
+        cp = CP.fork(__filename, {
+          stdio: ['inherit', 'inherit', 'pipe', 'ipc']
+        });
         cp.on('message', onMessage);
+        cp.on('error', onError);
         cp.on('exit', onExit);
+        cp.stderr.on('data', onStdError);
         cp.send({
           path: path,
           name: name,
@@ -110,12 +134,17 @@
         }
         result = func.apply(null, msg.args);
         if (!msg.async) {
-          return ready(null, result);
+          ready(null, result);
         }
       } catch (error1) {
         error = error1;
-        return ready(error);
+        ready(JSON.stringify({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        }));
       }
+      return null;
     };
     ready = function(error, result) {
       process.removeListener('message', call);

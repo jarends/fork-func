@@ -1,7 +1,11 @@
 fork = require '../fork-func'
 
 
-callback = (error, result) -> console.log result
+callback = (error, result) ->
+    if error
+        console.log 'ERROR: ', error
+    else
+        console.log result
 
 
 console.log '\nstarting some heavy work ...'
@@ -42,7 +46,6 @@ pimped.someHeavyAsyncWork 3500, 'called from pimped.someHeavyAsyncWork', callbac
 pimped.workAsync          3600, 'called from pimped.workAsync',          callback
 pimped.workHeavy          3700, 'called from pimped.workHeavy',          callback
 pimped.workNested         3800, 'called from pimped.workNested',         callback
-
 
 
 

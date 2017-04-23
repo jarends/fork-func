@@ -5,7 +5,11 @@
   fork = require('../fork-func');
 
   callback = function(error, result) {
-    return console.log(result);
+    if (error) {
+      return console.log('ERROR: ', error);
+    } else {
+      return console.log(result);
+    }
   };
 
   console.log('\nstarting some heavy work ...');

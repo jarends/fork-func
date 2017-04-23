@@ -1,6 +1,6 @@
 {
     "name": "fork-func",
-    "version": "0.0.13",
+    "version": "0.1.0",
     "description": "Executes a function in a child process, as easy as calling a ordinary function ;-)",
     "main": "./js/fork-func",
     "scripts": {
@@ -27,5 +27,6 @@
         "url": "https://github.com/jarends/fork-func/issues"
     },
     "homepage": "https://github.com/jarends/fork-func#readme",
-    "typings": "./ts/fork-func.d.ts"
+    "typings": "./ts/fork-func.d.ts",
+    "dependencies": {}
 }

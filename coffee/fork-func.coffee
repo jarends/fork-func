@@ -29,7 +29,7 @@ if module.parent
             async = pathOrAsync
 
         opts = parse path
-        key  = translate key or opts.name or Path.basename(opts.path)
+        key  = translate key or opts.name or Path.basename opts.path
 
         obj[key] = (args..., callback) ->
             call opts.path, opts.name, args, callback, async
@@ -40,19 +40,41 @@ if module.parent
 
     call = (path, name, args, callback, async) ->
         try
-            cp = CP.fork __filename, stdio: 'inherit'
 
             onMessage = (msg) ->
+                if msg.error
+                    msg.error = JSON.parse msg.error
+                    null
                 callback msg.error, msg.result
                 null
 
-            onExit = () ->
-                cp.removeListener 'message', onMessage
-                cp.removeListener 'exit'   , onExit
+            onError = (error) ->
+                callback error
                 null
 
+            onStdError = (data) ->
+                data = data.toString().split /\r\n|\n/
+                data.splice 0, 4
+                parsed = /(.*?):\s(.*)/.exec data[0]
+                callback
+                    name:    parsed[1]
+                    message: parsed[2]
+                    stack:   data.join '\n'
+                null
+
+            onExit = () ->
+                cp.removeListener 'message'     , onMessage
+                cp.removeListener 'error'       , onError
+                cp.removeListener 'exit'        , onExit
+                cp.stderr.removeListener 'data' , onStdError
+                null
+
+            cp = CP.fork __filename, stdio: ['inherit', 'inherit', 'pipe', 'ipc']
             cp.on 'message', onMessage
+            cp.on 'error'  , onError
             cp.on 'exit'   , onExit
+
+            cp.stderr.on 'data', onStdError
 
             cp.send
                 path:  path
@@ -101,18 +123,21 @@ else
     #    000       000   000  000  000      000   000
     #    000       000000000  000  000      000   000
     #    000       000   000  000  000      000   000
-    #     0000000  000   000  000  0000000  0000000  
-    
+    #     0000000  000   000  000  0000000  0000000
+
     call = (msg) ->
         try
             func = require msg.path
             func = func[msg.name] if msg.name
-            # TODO: better error checking
-            msg.args.push(ready) if msg.async
+            msg.args.push ready if msg.async
             result = func.apply null, msg.args
-            ready(null, result) if not msg.async
+            ready null, result if not msg.async
         catch error
-            ready error
+            ready JSON.stringify
+                name:    error.name
+                message: error.message
+                stack:   error.stack
+        null
 
 
     ready = (error, result) ->
