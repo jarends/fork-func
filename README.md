@@ -127,8 +127,8 @@ Ok, one more sugar. You can decorate any object with simpler to use functions li
   
 <br>  
  
-**P.S.:** fork-func tries to capture all possible errors by either serializing the ```name```, ```message``` and ```stack``` of a child process error,
-parsing the output of stderr to an object with the same properties or delegating an ipc error or one, witch is thrown on child process creation.      
+**P.S.:** fork-func tries to capture errors by either serializing the ```name```, ```message``` and ```stack``` of a child process error
+or delegating an ipc error or one, witch is thrown on child process creation.      
 <br>     
 Enjoy!
 <br>  

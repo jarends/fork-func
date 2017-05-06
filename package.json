@@ -1,6 +1,6 @@
 {
     "name": "fork-func",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Executes a function in a child process, as easy as calling a ordinary function ;-)",
     "main": "./js/fork-func",
     "scripts": {

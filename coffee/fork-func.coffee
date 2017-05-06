@@ -69,7 +69,7 @@ if module.parent
                 cp.stderr.removeListener 'data' , onStdError
                 null
 
-            cp = CP.fork __filename, stdio: ['inherit', 'inherit', 'pipe', 'ipc']
+            cp = CP.fork __filename, stdio: ['pipe', 'pipe', 'pipe', 'ipc']
             cp.on 'message', onMessage
             cp.on 'error'  , onError
             cp.on 'exit'   , onExit

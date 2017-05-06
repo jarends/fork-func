@@ -74,7 +74,7 @@
           return null;
         };
         cp = CP.fork(__filename, {
-          stdio: ['inherit', 'inherit', 'pipe', 'ipc']
+          stdio: ['pipe', 'pipe', 'pipe', 'ipc']
         });
         cp.on('message', onMessage);
         cp.on('error', onError);
