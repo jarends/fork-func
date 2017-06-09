@@ -5,7 +5,7 @@ Executes a function in a child process, as easy as calling a ordinary function ;
 ```coffee
       
     # function script './heavy-func'
-    module exports = (args...) ->
+    module.exports = (args...) ->
          # some heavy, long running stuff
          return result
          
