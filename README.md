@@ -1,5 +1,4 @@
-# fork-func  
-<br/>
+# fork-func   
 
 Executes a function in a child process, as easy as simply calling it ;-)  
 <br/>
