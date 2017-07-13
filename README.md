@@ -19,7 +19,7 @@ Executes a function in a child process, as easy as simply calling it ;-)
 ```   
 <br/>
 
-**calling function instances**
+**calling functions**
 ```coffee
       
     # blocking function
@@ -73,7 +73,7 @@ Executes a function in a child process, as easy as simply calling it ;-)
 <br/>
 
 **pathOrFunc**  
-If you pass a function instance, this function will be called in a child process.
+If you pass a function, this function will be called in a child process.
   
 Or you can pass an absolute or relative path to a module, exporting a function.
 If relative, it must be relative to the calling module like you would do in ```require```.
@@ -94,6 +94,7 @@ A function expecting two arguments. First a possible error and second the result
   
 **return**    
 The child-process instance is returned. You can use it, to kill the processor or do other stuff.
+<br/>
 <br/>
   
 That's it ;-)
