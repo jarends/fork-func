@@ -6,4 +6,4 @@ module.exports = (delay, msg) ->
 
     #throw new Error('Custom Error sync')
 
-    return delay + 'ms later ... ' + msg
+    delay + 'ms later ... ' + msg

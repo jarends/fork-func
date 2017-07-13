@@ -1,4 +1,60 @@
-fork = require '../fork-func'
+Fs     = require 'fs'
+Path   = require 'path'
+fork   = require '../fork-func'
+pimped = {}
+
+
+getCfg = (path) ->
+    require path
+
+path = Path.join __dirname, 'cfg.js'
+
+Fs.writeFileSync path, 'module.exports = {hello:"world"};'
+
+cfg = getCfg path
+
+console.log 'cfg: ', cfg
+
+Fs.writeFileSync path, 'module.exports = {hello:"world!!!"};'
+
+cfg = getCfg path
+
+console.log 'cfg: ', cfg
+
+
+Fs.writeFileSync path, 'module.exports = {hello:"world"};'
+
+cfg = fork.sync getCfg, path
+
+console.log 'cfg: ', cfg
+
+Fs.writeFileSync path, 'module.exports = {hello:"world ;-)"};'
+
+cfg = fork.sync getCfg, path
+
+console.log 'cfg: ', cfg
+
+
+
+
+someHeavyWork = (delay, msg) ->
+
+    start = Date.now()
+    while Date.now() - start < delay
+        null
+    #throw new Error('Custom Error sync')
+    delay + 'ms later ... ' + msg
+
+
+
+someHeavyAsyncWork = (delay, msg, done) ->
+
+    setTimeout () ->
+        #throw new Error('Custom Error async')
+        done null, delay + 'ms later ... ' + msg
+    , delay
+
+
 
 
 callback = (error, result) ->
@@ -8,7 +64,39 @@ callback = (error, result) ->
         console.log result
 
 
-console.log '\nstarting some heavy work ...'
+
+console.log '\ncalling sync ...'
+
+console.log result = fork.sync './some-heavy-work', 1000, 'result from sync call\n'
+
+
+console.log 'calling real function sync ...'
+
+console.log result = fork.sync someHeavyWork, 1000, 'result from sync real function call\n'
+
+
+fork.pimp  pimped, 'workSync', __dirname + '/some-heavy-work', false
+
+console.log 'calling pimped.workSync ...'
+
+console.log result = pimped.workSync 1000, 'result from pimped.workSync\n'
+
+
+
+console.log 'call real function ...'
+
+fork someHeavyWork, 1000, 'real function ready', callback
+
+console.log 'ready ;-) but real function keeps running ...\n'
+
+console.log 'call real function async ...'
+
+fork.async someHeavyAsyncWork, 1100, 'async real function ready', callback
+
+console.log 'ready ;-) but async real function keeps running ...\n'
+
+
+console.log 'starting some heavy work ...'
 
 fork './some-heavy-work', 3000, 'background job ready', callback
 
@@ -27,9 +115,6 @@ console.log 'starting some heavy, async work ...'
 fork.async './some-heavy-async-work', 3200, 'async background job ready', callback
 
 console.log 'ready ;-) but still working (async) in background ...\n'
-
-
-pimped = {}
 
 
 fork.pimp  pimped, __dirname + '/some-heavy-work'
