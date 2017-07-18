@@ -30,7 +30,7 @@
       args = [__filename, JSON.stringify(opts)];
       try {
         result = CP.spawnSync('node', args, {
-          stdio: ['pipe', 'pipe', 'inherit']
+          stdio: ['pipe', 'pipe', 'pipe']
         });
         result = ((result.stdout + '').split(/\r\n|\n/)).pop();
         result = JSON.parse(result);
@@ -112,7 +112,7 @@
           return null;
         };
         cp = CP.fork(__filename, {
-          stdio: ['pipe', 'inherit', 'pipe', 'ipc']
+          stdio: ['pipe', 'pipe', 'pipe', 'ipc']
         });
         cp.on('message', onMessage);
         cp.on('error', onError);

@@ -24,6 +24,8 @@
 
   Fs.writeFileSync(path, 'module.exports = {hello:"world!!!"};');
 
+  delete require.cache[path];
+
   cfg = getCfg(path);
 
   console.log('cfg: ', cfg);

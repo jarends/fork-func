@@ -31,7 +31,7 @@ if module.parent
         args = [__filename, JSON.stringify opts]
 
         try
-            result = CP.spawnSync 'node', args, stdio: ['pipe', 'pipe', 'inherit']
+            result = CP.spawnSync 'node', args, stdio: ['pipe', 'pipe', 'pipe']
             result = ((result.stdout + '').split /\r\n|\n/).pop()
             result = JSON.parse result
             error  = result.error
@@ -100,7 +100,7 @@ if module.parent
                 cp.stderr.removeListener 'data' , onStdError
                 null
 
-            cp = CP.fork __filename, stdio: ['pipe', 'inherit', 'pipe', 'ipc']
+            cp = CP.fork __filename, stdio: ['pipe', 'pipe', 'pipe', 'ipc']
             cp.on 'message', onMessage
             cp.on 'error'  , onError
             cp.on 'exit'   , onExit
