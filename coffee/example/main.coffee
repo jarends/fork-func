@@ -4,40 +4,51 @@ fork   = require '../fork-func'
 pimped = {}
 
 
-getCfg = (path) ->
-    require path
+
+
+# command example with sync and async code in one file
+
+Cmd = require './test'
+cmd = new Cmd()
+cmd.execute 'hello'
+
+
+
+
+# require changed json - the correct way
 
 path = Path.join __dirname, 'cfg.js'
 
 Fs.writeFileSync path, 'module.exports = {hello:"world"};'
 
-cfg = getCfg path
-
-console.log 'cfg: ', cfg
+console.log 'cfg: ', require path
 
 Fs.writeFileSync path, 'module.exports = {hello:"world!!!"};'
 
 delete require.cache[path]
 
-cfg = getCfg path
+console.log 'cfg: ', require path
 
-console.log 'cfg: ', cfg
 
+
+
+# require changed json - the definitely wrong way
+
+getCfg = (path) ->
+    require path
 
 Fs.writeFileSync path, 'module.exports = {hello:"world"};'
 
-cfg = fork.sync getCfg, path
-
-console.log 'cfg: ', cfg
+console.log 'cfg: ', fork.sync getCfg, path
 
 Fs.writeFileSync path, 'module.exports = {hello:"world ;-)"};'
 
-cfg = fork.sync getCfg, path
-
-console.log 'cfg: ', cfg
+console.log 'cfg: ', fork.sync getCfg, path
 
 
 
+
+# example functions
 
 someHeavyWork = (delay, msg) ->
 
@@ -48,15 +59,12 @@ someHeavyWork = (delay, msg) ->
     delay + 'ms later ... ' + msg
 
 
-
 someHeavyAsyncWork = (delay, msg, done) ->
 
     setTimeout () ->
         #throw new Error('Custom Error async')
         done null, delay + 'ms later ... ' + msg
     , delay
-
-
 
 
 callback = (error, result) ->
@@ -66,6 +74,7 @@ callback = (error, result) ->
         console.log result
 
 
+# basic usage
 
 console.log '\ncalling sync ...'
 
