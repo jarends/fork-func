@@ -38,7 +38,7 @@ if module.parent
             if error
                 throw new Error 'while executing forc-func.sync:\n' + error.stack
         catch e
-            throw new Error 'while executing forc-func.sync:\n' + error.stack
+            throw new Error 'while executing forc-func.sync:\n' + e.stack
 
         result.value
 
@@ -167,21 +167,22 @@ else
     #     0000000  000   000  000  0000000  0000000
 
     args = process.argv
-
     if args.length == 3 and args[1] == __filename
-        opts = JSON.parse args[2]
-        path = opts.path
-        name = opts.name
-        args = opts.args
-        code = opts.code
         try
+            o    = JSON.parse args[2]
+            path = o.path
+            name = o.name
+            args = o.args
+            code = o.code
+
             if code
                 args = JSON.stringify args
                 eval "value = (#{code}).apply(null, #{args});"
             else
-                func  = require path
-                func  = func[name] if name and name != 'null'
-                value = func.apply null, args
+                func    = require path
+                func    = func[name] if name and name != 'null'
+                value   = func.apply null, args
+                handled = true
         catch error
             error =
                 name:    error.name
@@ -194,7 +195,7 @@ else
 
         process.stdout.write result, 'utf8'
 
-    else
+    if not handled
 
         call = (msg) ->
             try
